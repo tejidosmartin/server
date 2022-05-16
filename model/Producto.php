@@ -4,17 +4,17 @@ class Producto
 {
     private array $atributos = [];
 
-    public function __construct(int $codigo, string $familia, string $serie, string $modelo, int $proveedor, string $ufc, string $ufv, string $color, string $talla)
+    public function __construct(string $id, string $familia, string $serie, string $modelo, string $color, string $talla, string $nombre, string $descripcion, int $precio)
     {
-        $this->atributos['codigo'] = $codigo;
+        $this->atributos['id'] = $id;
         $this->atributos['familia'] = $familia;
         $this->atributos['serie'] = $serie;
         $this->atributos['modelo'] = $modelo;
-        $this->atributos['proveedor'] = $proveedor;
-        $this->atributos['ufc'] = $ufc;
-        $this->atributos['ufv'] = $ufv;
         $this->atributos['color'] = $color;
         $this->atributos['talla'] = $talla;
+        $this->atributos['nombre'] = $nombre;
+        $this->atributos['descripcion'] = $descripcion;
+        $this->atributos['precio'] = $precio;
     }
 
     /**
