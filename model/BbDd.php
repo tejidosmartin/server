@@ -15,7 +15,7 @@ class BbDd
     public static function consulta(string $sql)
     {
         try {
-            [$host, $user, $pwd, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"];
+            [$host, $user, $pwd, $db] = ["us-cdbr-east-05.cleardb.net", "b6c6d836e983e1", "45e103ed", "tienda"];
             self::$conexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pwd);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);

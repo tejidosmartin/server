@@ -10,23 +10,23 @@ $codigo = $_GET["codigo"];
 
 if (isset($_GET["action"]) && !empty($action) && empty($filter)) {
     if ($action == "carrito") {
-        header("Access-Control-Allow-Origin: http://localhost:4200");
+        header("Access-Control-Allow-Origin: *");
         $sentencia = BbDd::obtenerProductosCarrito();
         echo json_encode($sentencia);
     }
     if ($action == "list") {
-        header("Access-Control-Allow-Origin: http://localhost:4200");
+        header("Access-Control-Allow-Origin: *");
         $sentencia = BbDd::listaProductos(1, 9);
         echo json_encode($sentencia);
     }
 }
 if (empty($action) && !empty($filter)) {
-    header("Access-Control-Allow-Origin: http://localhost:4200");
+    header("Access-Control-Allow-Origin: *");
     $sentencia = BbDd::filterBy($filter);
     echo json_encode($sentencia);
 }
 if (!empty($codigo)) {
-    header("Access-Control-Allow-Origin: http://localhost:4200");
+    header("Access-Control-Allow-Origin: *");
     $sentencia = BbDd::devolverArticulo($codigo);
     echo json_encode($sentencia);
 }
