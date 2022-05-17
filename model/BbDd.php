@@ -23,7 +23,10 @@ class BbDd
             $db = substr($url["path"], 1);
 
             /* $conn = new mysqli($server, $username, $password, $db); */
-            self::$conexion = new mysqli($server, $username, $password, $db);
+            /* self::$conexion = new mysqli($server, $username, $password, $db); */
+            self::$conexion = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $username, $password);
+            self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
             /* [$host, $user, $pwd, $db] = ["us-cdbr-east-05.cleardb.net", "b6c6d836e983e1", "45e103ed", "tienda"];
             self::$conexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pwd);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
