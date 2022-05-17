@@ -30,6 +30,9 @@ if (!empty($codigo)) {
     $sentencia = BbDd::devolverArticulo($codigo);
     echo json_encode($sentencia);
 }
+if (!empty($codigo)) {
+    echo "algo";
+}
 
 
 /* header("Access-Control-Allow-Origin: http://localhost:4200");
