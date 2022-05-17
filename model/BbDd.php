@@ -15,10 +15,19 @@ class BbDd
     public static function consulta(string $sql)
     {
         try {
-            [$host, $user, $pwd, $db] = ["us-cdbr-east-05.cleardb.net", "b6c6d836e983e1", "45e103ed", "tienda"];
+            $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+            $server = $url["host"];
+            $username = $url["user"];
+            $password = $url["pass"];
+            $db = substr($url["path"], 1);
+
+            /* $conn = new mysqli($server, $username, $password, $db); */
+            self::$conexion = new mysqli($server, $username, $password, $db);
+            /* [$host, $user, $pwd, $db] = ["us-cdbr-east-05.cleardb.net", "b6c6d836e983e1", "45e103ed", "tienda"];
             self::$conexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pwd);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
+            self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE); */
             if (strpos(strtoupper(trim($sql)), "SELECT") >= 0) {
                 $resultado = self::$conexion->prepare($sql);
             } /* else {
