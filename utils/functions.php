@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 /**
  * Función encargada de obtener el valor de las
@@ -34,7 +34,8 @@ function obtenerVariableDelEntorno($key)
  *
  * @return void
  */
-function startSessionIfNotExist(){
+function startSessionIfNotExist()
+{
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
@@ -51,3 +52,8 @@ function is_session_started()
     }
     return FALSE;
 }
+
+function gen_uid($l=10){
+    return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyz"), 0, $l);
+}
+

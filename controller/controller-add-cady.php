@@ -9,12 +9,24 @@ include_once("../utils/functions.php");
 $json = file_get_contents('php://input');
 
 $params = json_decode($json);
-if (is_session_started() === FALSE) session_start();
-$idSesion = session_id();
+/* if (is_session_started() === FALSE) session_start();
+$idSesion = $_COOKIE[session_name()]; */
 
+$idSesion = "";
+
+if (isset($_COOKIE["PHPSESSID"])) {
+    $idSesion = printf($_COOKIE["PHPSESSID"]);
+} else {
+    startSessionIfNotExist();
+    $idSesion = printf($_COOKIE["PHPSESSID"]);
+}
+
+/* printf($_COOKIE["PHPSESSID"]); */
 BbDd::agregarProductoCarrito($params->id, $idSesion);
 
-class Result{}
+class Result
+{
+}
 
 $response = new Result();
 $response->resultado = 'OK';

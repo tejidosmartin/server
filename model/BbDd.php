@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL ^ E_WARNING);
 require_once("Producto.php");
 require_once("../utils/functions.php");
 
@@ -15,27 +16,20 @@ class BbDd
     public static function consulta(string $sql)
     {
         try {
-            $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+            [$server, $username, $password, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"];
+            /* $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
             $server = $url["host"];
             $username = $url["user"];
             $password = $url["pass"];
-            $db = substr($url["path"], 1);
+            $db = substr($url["path"], 1); */
 
-            /* $conn = new mysqli($server, $username, $password, $db); */
-            /* self::$conexion = new mysqli($server, $username, $password, $db); */
             self::$conexion = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $username, $password);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
-            /* [$host, $user, $pwd, $db] = ["us-cdbr-east-05.cleardb.net", "b6c6d836e983e1", "45e103ed", "tienda"];
-            self::$conexion = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pwd);
-            self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            self::$conexion->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE); */
             if (strpos(strtoupper(trim($sql)), "SELECT") >= 0) {
                 $resultado = self::$conexion->prepare($sql);
-            } /* else {
-                $resultado = self::$conexion->exec($sql);
-            } */
+            }
             if ($resultado == null) {
                 echo "Error en la consulta: $sql";
                 exit(2);
@@ -83,7 +77,7 @@ class BbDd
      *
      * @return mixed
      */
-    public static function obtenerProductosCarrito()
+    public static function obtenerProductosCarrito($idSesion)
     {
         $sql = "SELECT producto.id, producto.familia, producto.serie,
         producto.modelo, producto.color, producto.talla, producto.nombre, 
@@ -92,9 +86,6 @@ class BbDd
         WHERE carrito_usuarios.id_sesion = ?";
 
         $sentencia = self::consulta($sql);
-
-        startSessionIfNotExist();
-        $idSesion = session_id();
 
         $sentencia->execute([$idSesion]);
         $listaProductos = [];
@@ -124,6 +115,7 @@ class BbDd
         return $listaProductos;
     }
 
+
     /**
      * Función encargada de agregar un producto al carrito
      * a partir de la id del producto
@@ -136,24 +128,15 @@ class BbDd
         $sql = "INSERT INTO carrito_usuarios(id_sesion, id) VALUES (?, ?)";
         $sentencia = self::consulta($sql);
 
-        startSessionIfNotExist();
-        $idSesion = session_id();
 
         return $sentencia->execute([$idSesion, $idProducto]);
 
-        /* $bd = self::obtenerConexion();
-        startSessionIfNotExist();
-        $idSesion = session_id();
-        $sentencia = $bd->prepare("INSERT INTO carrito_usuarios(id_sesion, id) VALUES (?, ?)");
-        return $sentencia->execute([$idSesion, $idProducto]); */
     }
 
-    public static function quitarProductoCarrito($idProducto)
+    public static function quitarProductoCarrito($idProducto, $idSesion)
     {
         $sql = "DELETE FROM carrito_usuarios WHERE id_sesion = ? AND id = ?";
         $sentencia = self::consulta($sql);
-        startSessionIfNotExist();
-        $idSesion = session_id();
 
         return $sentencia->execute([$idSesion, $idProducto]);
     }
@@ -163,8 +146,14 @@ class BbDd
         $sql = "SELECT id FROM carrito_usuarios WHERE id_sesion = ?";
         $sentencia = self::consulta($sql);
 
-        startSessionIfNotExist();
-        $idSesion = session_id();
+        $idSesion = "";
+
+        if (isset($_COOKIE["PHPSESSID"])) {
+            $idSesion = printf($_COOKIE["PHPSESSID"]);
+        } else{
+            startSessionIfNotExist();           
+        }
+        $idSesion = printf($_COOKIE["PHPSESSID"]);
 
         $sentencia->execute([$idSesion]);
         return $sentencia->fetchAll(PDO::FETCH_COLUMN);

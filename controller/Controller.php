@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL ^ E_WARNING);
+
 include_once("../model/BbDd.php");
 include_once("../model/Producto.php");
 include_once("../utils/functions.php");
@@ -8,10 +9,19 @@ $action = $_GET["action"];
 $filter = $_GET["filter"];
 $codigo = $_GET["codigo"];
 
+$idSesion = "";
+
+if (isset($_COOKIE["PHPSESSID"])) {
+    $idSesion = printf($_COOKIE["PHPSESSID"]);
+} else {
+    startSessionIfNotExist();
+}
+$idSesion = printf($_COOKIE["PHPSESSID"]);
+
 if (isset($_GET["action"]) && !empty($action) && empty($filter)) {
     if ($action == "carrito") {
         header("Access-Control-Allow-Origin: *");
-        $sentencia = BbDd::obtenerProductosCarrito();
+        $sentencia = BbDd::obtenerProductosCarrito($idSesion);
         echo json_encode($sentencia);
     }
     if ($action == "list") {
@@ -30,6 +40,18 @@ if (!empty($codigo)) {
     $sentencia = BbDd::devolverArticulo($codigo);
     echo json_encode($sentencia);
 }
+/* printf($_COOKIE["PHPSESSID"], false); */
+/* $idSesion = "";
+
+if (isset($_COOKIE["PHPSESSID"])) {
+    echo "existe";
+} else {
+    startSessionIfNotExist();
+}
+$idSesion = print_r($_COOKIE["PHPSESSID"]); */
+
+/* echo session_id();
+echo $_COOKIE["PHPSESSID"]; */
 
 /* header("Access-Control-Allow-Origin: http://localhost:4200");
     if (empty($_GET["codigo"])) {
