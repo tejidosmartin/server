@@ -7,7 +7,16 @@ include_once("../model/BbDd.php");
 include_once("../model/Producto.php");
 include_once("../utils/functions.php");
 
-$sentencia = BbDd::obtenerProductosCarrito();
+$idSesion = "";
+
+if (isset($_COOKIE["PHPSESSID"])) {
+    $idSesion = printf($_COOKIE["PHPSESSID"]);
+} else {
+    startSessionIfNotExist();
+    $idSesion = printf($_COOKIE["PHPSESSID"]);
+}
+
+$sentencia = BbDd::obtenerProductosCarrito($idSesion);
 echo json_encode($sentencia);
 
 
