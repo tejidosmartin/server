@@ -6,9 +6,7 @@ include_once("../model/BbDd.php");
 include_once("../model/Producto.php");
 include_once("../utils/functions.php");
 
-$json = file_get_contents('php://input');
-
-$params = json_decode($json);
+$id = $_GET["id"];
 
 $idSesion = "";
 
@@ -23,16 +21,15 @@ class Result
 {
 }
 
-if (BbDd::agregarProductoCarrito($params->id, $idSesion)) {
+if (BbDd::quitarProductoCarrito($id, $idSesion)) {
     $response = new Result();
     $response->resultado = 'OK';
-    $response->mensaje = 'producto añadido al carrito';
+    $response->mensaje = 'producto eliminado';
 } else {
     $response = new Result();
     $response->resultado = 'NOOK';
     $response->mensaje = 'a ocurrido un error';
 }
-
 
 header('Content-Type: application/json');
 echo json_encode($response);
