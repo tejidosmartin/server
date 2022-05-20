@@ -1,5 +1,5 @@
 <?php
-header('Access-Control-Allow-Origin: http://tejidosmartin.herokuapp.com, http://localhost:4200');
+header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
 
 include_once("../model/BbDd.php");
@@ -36,5 +36,3 @@ if (BbDd::agregarProductoCarrito($params->id, $idSesion)) {
 
 header('Content-Type: application/json');
 echo json_encode($response);
-
-?>

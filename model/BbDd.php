@@ -14,8 +14,8 @@ class BbDd
     public static function consulta(string $sql)
     {
         try {
-            /* [$server, $username, $password, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"]; */
-            [$server, $username, $password, $db] = ["localhost", "id18958550_shakar", "tWbh0H#ov#RG4AJ%v", "id18958550_tienda"];
+            [$server, $username, $password, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"];
+            /* [$server, $username, $password, $db] = ["localhost", "id18958550_shakar", "tWbh0H#ov#RG4AJ%v", "id18958550_tienda"]; */
 
             self::$conexion = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $username, $password);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -40,7 +40,7 @@ class BbDd
      */
     public static function devolverArticulo(string $codigo)
     {
-        $sql = "select * from `producto` where id=?";
+        $sql = "SELECT * FROM producto WHERE id = ?";
         $resultado = self::consulta($sql);
         $resultado->execute([$codigo]);
         while ($articulo = $resultado->fetch(PDO::FETCH_ASSOC)) {

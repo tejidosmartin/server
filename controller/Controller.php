@@ -5,10 +5,6 @@ include_once("../model/BbDd.php");
 include_once("../model/Producto.php");
 include_once("../utils/functions.php");
 
-$action = $_GET["action"];
-$filter = isset($_GET["filter"]);
-$codigo = isset($_GET["codigo"]);
-
 $idSesion = "";
 
 if (isset($_COOKIE["PHPSESSID"])) {
@@ -18,25 +14,20 @@ if (isset($_COOKIE["PHPSESSID"])) {
 }
 $idSesion = printf($_COOKIE["PHPSESSID"]);
 
-if (isset($_GET["action"]) && !empty($action) && empty($filter)) {
-    if ($action == "carrito") {
-        header('Access-Control-Allow-Origin: http://tejidosmartin.herokuapp.com, http://localhost:4200');
-        $sentencia = BbDd::obtenerProductosCarrito($idSesion);
-        echo json_encode($sentencia);
-    }
+if (isset($_GET["action"]) && !empty($_GET["action"]) && empty($_GET["filter"])) {
     if ($action == "list") {
-        header('Access-Control-Allow-Origin: http://tejidosmartin.herokuapp.com, http://localhost:4200');
+        header("Access-Control-Allow-Origin: *");
         $sentencia = BbDd::listaProductos(1, 9);
         echo json_encode($sentencia);
     }
 }
-if (empty($action) && !empty($filter)) {
-    header('Access-Control-Allow-Origin: http://tejidosmartin.herokuapp.com, http://localhost:4200');
+if (empty($_GET["action"]) && !empty($_GET["filter"])) {
+    header("Access-Control-Allow-Origin: *");
     $sentencia = BbDd::filterBy($filter);
     echo json_encode($sentencia);
 }
-if (!empty($codigo)) {
-    header('Access-Control-Allow-Origin: http://tejidosmartin.herokuapp.com, http://localhost:4200');
-    $sentencia = BbDd::devolverArticulo($codigo);
+if (!empty($_GET["codigo"])) {
+    header("Access-Control-Allow-Origin: *");
+    $sentencia = BbDd::devolverArticulo($_GET["codigo"]);
     echo json_encode($sentencia);
 }
