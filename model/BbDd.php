@@ -14,14 +14,8 @@ class BbDd
     public static function consulta(string $sql)
     {
         try {
-            [$server, $username, $password, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"];
-            /* [$server, $username, $password, $db] = ["localhost", "id18958550_shakar", "tWbh0H#ov#RG4AJ%v", "id18958550_tienda"]; */
-            /* $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
-
-            $server = $url["host"];
-            $username = $url["user"];
-            $password = $url["pass"];
-            $db = substr($url["path"], 1); */
+            /* [$server, $username, $password, $db] = ["localhost", "shakar", "tWbh0H#ov#RG4AJ%v", "tienda"]; */
+            [$server, $username, $password, $db] = ["localhost", "id18958550_shakar", "tWbh0H#ov#RG4AJ%v", "id18958550_tienda"];
 
             self::$conexion = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $username, $password);
             self::$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
