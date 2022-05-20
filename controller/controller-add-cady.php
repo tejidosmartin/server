@@ -25,14 +25,16 @@ class Result
 
 if (BbDd::agregarProductoCarrito($params->id, $idSesion)) {
     $response = new Result();
-    $response->resultado = 'OK';
+    $response->ok = 'true';
     $response->mensaje = 'producto añadido al carrito';
 } else {
     $response = new Result();
-    $response->resultado = 'NOOK';
+    $response->ok = 'false';
     $response->mensaje = 'a ocurrido un error';
 }
 
 
 header('Content-Type: application/json');
 echo json_encode($response);
+
+?>

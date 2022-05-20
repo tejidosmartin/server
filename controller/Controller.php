@@ -6,8 +6,8 @@ include_once("../model/Producto.php");
 include_once("../utils/functions.php");
 
 $action = $_GET["action"];
-$filter = $_GET["filter"];
-$codigo = $_GET["codigo"];
+$filter = isset($_GET["filter"]);
+$codigo = isset($_GET["codigo"]);
 
 $idSesion = "";
 
@@ -20,7 +20,7 @@ $idSesion = printf($_COOKIE["PHPSESSID"]);
 
 if (isset($_GET["action"]) && !empty($action) && empty($filter)) {
     if ($action == "carrito") {
-        header("Access-Control-Allow-Origin: *");
+        /* header("Access-Control-Allow-Origin: *"); */
         $sentencia = BbDd::obtenerProductosCarrito($idSesion);
         echo json_encode($sentencia);
     }
@@ -40,33 +40,3 @@ if (!empty($codigo)) {
     $sentencia = BbDd::devolverArticulo($codigo);
     echo json_encode($sentencia);
 }
-/* printf($_COOKIE["PHPSESSID"], false); */
-/* $idSesion = "";
-
-if (isset($_COOKIE["PHPSESSID"])) {
-    echo "existe";
-} else {
-    startSessionIfNotExist();
-}
-$idSesion = print_r($_COOKIE["PHPSESSID"]); */
-
-/* echo session_id();
-echo $_COOKIE["PHPSESSID"]; */
-
-/* header("Access-Control-Allow-Origin: http://localhost:4200");
-    if (empty($_GET["codigo"])) {
-        exit("No hay codigo de articulo");
-    }
-    $codigo = $_GET["codigo"];
-    $bd = include_once "../model/BbDd.php";
-    $sentencia = $bd->devolverArticulo($codigo);
-
-    $articulo = $sentencia->fetchObject();
-    echo json_encode($articulo); */
-
-/* $a = obtenerVariableDelEntorno("MYSQL_DATABASE_NAME");
-echo $a;
-
-BbDd::agregarProductoCarrito("A2K9X0S8S9");
-
-BbDd::obtenerIdsProductoCarrito(); */

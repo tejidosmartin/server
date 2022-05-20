@@ -1,6 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept");
+header("Access-Control-Allow-Methods: *");
 
 include_once("../model/BbDd.php");
 include_once("../model/Producto.php");
@@ -23,11 +24,11 @@ class Result
 
 if (BbDd::quitarProductoCarrito($id, $idSesion)) {
     $response = new Result();
-    $response->resultado = 'OK';
+    $response->ok = 'true';
     $response->mensaje = 'producto eliminado';
 } else {
     $response = new Result();
-    $response->resultado = 'NOOK';
+    $response->ok = 'false';
     $response->mensaje = 'a ocurrido un error';
 }
 

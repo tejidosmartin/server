@@ -17,7 +17,7 @@ if (isset($_COOKIE["PHPSESSID"])) {
 }
 
 $sentencia = BbDd::obtenerProductosCarrito($idSesion);
-echo json_encode($sentencia);
 
+echo json_encode($sentencia);
 
 ?>
