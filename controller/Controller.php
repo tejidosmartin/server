@@ -15,7 +15,7 @@ if (isset($_COOKIE["PHPSESSID"])) {
 $idSesion = printf($_COOKIE["PHPSESSID"]);
 
 if (isset($_GET["action"]) && !empty($_GET["action"]) && empty($_GET["filter"])) {
-    if ($action == "list") {
+    if ($_GET["action"] == "list") {
         header("Access-Control-Allow-Origin: *");
         $sentencia = BbDd::listaProductos(1, 9);
         echo json_encode($sentencia);
